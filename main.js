@@ -11,16 +11,19 @@ function getRandomNumber(min, max) {
   return randomNumber;
 }
 
-btnNo.addEventListener("mouseover", (event) => {
+const moveBtnNo = () => {
   const containerHeight = container.getBoundingClientRect().height;
   const containerWidth = container.getBoundingClientRect().width;
   const btnHeight = btnNo.getBoundingClientRect().height;
   const btnWidth = btnNo.getBoundingClientRect().width;
-  const btnTop = btnNo.getBoundingClientRect().top;
-  const btnLeft = btnNo.getBoundingClientRect().left;
+  
+  // Use offsetTop/offsetLeft to calculate relative to the container since container has position: relative
+  const btnTop = btnNo.offsetTop;
+  const btnLeft = btnNo.offsetLeft;
 
   let newTop = btnTop;
   let newLeft = btnLeft;
+  
   while (Math.abs(newTop - btnTop) < containerHeight / 3) {
     newTop = getRandomNumber(0, containerHeight - btnHeight);
   }
@@ -31,6 +34,12 @@ btnNo.addEventListener("mouseover", (event) => {
 
   btnNo.style.top = Math.floor(newTop) + "px";
   btnNo.style.left = Math.floor(newLeft) + "px";
+};
+
+btnNo.addEventListener("mouseover", moveBtnNo);
+btnNo.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  moveBtnNo();
 });
 
 btnYes.addEventListener("click", (e) => {
